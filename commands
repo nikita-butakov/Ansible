@@ -1,0 +1,46 @@
+ansible-inventory --list
+
+#Select exact config, later you should add this setting to inventory file
+ansible -i hosts.txt all -m ping
+
+#Check by ping [ping-pong]
+ansible all -m ping
+
+#View information about client [all] and [stating_servers]
+ansible all -m setup
+ansible stating_servers -m setup
+
+#Run shell
+ansible all -m shell -a "ls /home"
+
+# Copy file
+ansible all -m copy -a "src=privet.txt dest=/home mode=777" -b --ask-become-pass
+
+# Delete file
+ansible all -m file -a "path=/home/privet.txt state=absent" -b --ask-become-pass
+
+#Download files from internet
+ansible all -m get_url -a "url=https://site.com/files dest=/home" -b --ask-become-pass
+
+#Install programm (Stress for example)
+ansible all -m apt -a "name=stress state=present" -b --ask-become-pass
+
+#Remove programm (Stress for example)
+ansible all -m apt -a "name=stress state=absent" -b --ask-become-pass
+
+#Check website accesebility
+ansible all -m uri -a "url=http://yandex.ru"
+ansible all -m uri -a "url=http://yandex.ru return_content=yes"
+
+#Apache
+ansible all -m apt -a "name=apache2 state=present" -b --ask-become-pass
+ansible all -m service -a "name=apache2 state=started enabled=yes" -b --ask-become-pass
+
+#Debug
+ansible all -m shell -a "ls /home" -v
+ansible all -m shell -a "ls /home" -vv
+ansible all -m shell -a "ls /home" -vvv
+
+#List of modules
+ansible-doc -l | grep aws
+
