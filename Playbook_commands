@@ -1,0 +1,2 @@
+ansible-playbook playbook1.yml --ask-become-pass
+ansible-playbook playbook1.yml -u user -K
